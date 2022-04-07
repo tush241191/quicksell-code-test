@@ -4,8 +4,8 @@ import { getCounter } from './network/api/counter';
 
 function App() {
 
-  const {counter, setCounter} = useState(1)
-  const {loading, setLoading} = useState(false)
+  const [counter, setCounter] = useState(1)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     getCounterData()
@@ -13,7 +13,7 @@ function App() {
 
   const getCounterData = async () => {
     try {
-        //setLoading(true)
+        setLoading(true)
         const res = await getCounter()
         console.log('res', res)
         if(res != null){
@@ -22,16 +22,23 @@ function App() {
     } catch (err) {
         console.log('error', err)
     } finally {
-        //setLoading(false)
+        setLoading(false)
     }
-}
+  }
+
+  function handleChange(event) {
+    setCounter(event.target.value)
+  }
 
   return (
-    <div className="btnGroup">
-      <button className="btn btn-decrement">-</button>
-      <input className="btn input-count" value="10"/>
-      <button className="btn btn-increment">+</button>
-    </div>
+    <>
+      <div className='btnGroup'>
+        <button className='btn btn-decrement'>-</button>
+        <input className='btn input-count' value={counter} onChange={handleChange}/>
+        <button className='btn btn-increment'>+</button>
+      </div>
+      <div className='counterValue'>Counter value: {counter}</div>
+    </>
   );
 }
 
