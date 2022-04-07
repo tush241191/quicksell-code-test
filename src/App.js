@@ -30,12 +30,20 @@ function App() {
     setCounter(event.target.value)
   }
 
+  function increment(){
+    setCounter(counter+1)
+  }
+
+  function decrement(){
+    setCounter(counter == 1 ? 1 : counter-1)
+  }
+
   return (
     <>
       <div className='btnGroup'>
-        <button className='btn btn-decrement'>-</button>
+        <button className='btn btn-decrement' onClick={decrement}>-</button>
         <input className='btn input-count' value={counter} onChange={handleChange}/>
-        <button className='btn btn-increment'>+</button>
+        <button className='btn btn-increment' onClick={increment}>+</button>
       </div>
       <div className='counterValue'>Counter value: {counter}</div>
     </>
