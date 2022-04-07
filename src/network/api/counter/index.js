@@ -4,7 +4,7 @@ export async function updateCounter(count) {
 
   const url = 'front-end.json'
 
-  const { data } = await http.post(url, {
+  const { data } = await http.put(url, {
     tushar: count
   })
 

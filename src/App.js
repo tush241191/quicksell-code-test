@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { getCounter } from './network/api/counter';
+import Button from './components/Button';
+import { getCounter, updateCounter } from './network/api/counter';
 
 function App() {
 
@@ -26,25 +27,25 @@ function App() {
     }
   }
 
-  function handleChange(event) {
-    setCounter(event.target.value)
-  }
-
-  function increment(){
-    setCounter(counter+1)
-  }
-
-  function decrement(){
-    setCounter(counter == 1 ? 1 : counter-1)
+  const updateCounterData = async (count) => {
+    console.log("updateCounterData: ",count)
+    try {
+      setLoading(true)
+      const res = await updateCounter(count)
+      console.log('res', res)
+      if(res != null){
+        setCounter(res.tushar)
+      }
+    } catch (err) {
+        console.log('error', err)
+    } finally {
+        setLoading(false)
+    }
   }
 
   return (
     <>
-      <div className='btnGroup'>
-        <button className='btn btn-decrement' onClick={decrement}>-</button>
-        <input className='btn input-count' value={counter} onChange={handleChange}/>
-        <button className='btn btn-increment' onClick={increment}>+</button>
-      </div>
+      <Button counter={counter} updateCounterData={updateCounterData}/>
       <div className='counterValue'>Counter value: {counter}</div>
     </>
   );
