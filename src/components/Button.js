@@ -9,7 +9,7 @@ const Button = ({counter,updateCounterData}) =>{
   },[count])
 
   function handleChange(event) {
-    setCount(event.target.value)
+    setCount(parseInt(event.target.value))
   }
 
   function increment(){

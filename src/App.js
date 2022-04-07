@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import Button from './components/Button';
+import Label from './components/Label';
 import { getCounter, updateCounter } from './network/api/counter';
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
         const res = await getCounter()
         console.log('res', res)
         if(res != null){
-          setCounter(res.tushar)
+          setCounter(res.tushar != null ? res.tushar : 1)
         }
     } catch (err) {
         console.log('error', err)
@@ -28,11 +29,11 @@ function App() {
   }
 
   const updateCounterData = async (count) => {
-    console.log("updateCounterData: ",count)
+    console.log(count)
     try {
       setLoading(true)
       const res = await updateCounter(count)
-      console.log('res', res)
+      console.log("res",res)
       if(res != null){
         setCounter(res.tushar)
       }
@@ -46,7 +47,7 @@ function App() {
   return (
     <>
       <Button counter={counter} updateCounterData={updateCounterData}/>
-      <div className='counterValue'>Counter value: {counter}</div>
+      <Label count={counter}/>
     </>
   );
 }
