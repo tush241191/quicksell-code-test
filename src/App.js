@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import Button from './components/Button';
 import Label from './components/Label';
+import Loader from './components/Loader';
 import { getCounter, updateCounter } from './network/api/counter';
 
 function App() {
@@ -15,25 +16,19 @@ function App() {
 
   const getCounterData = async () => {
     try {
-        setLoading(true)
         const res = await getCounter()
-        console.log('res', res)
         if(res != null){
           setCounter(res.tushar != null ? res.tushar : 1)
         }
     } catch (err) {
         console.log('error', err)
-    } finally {
-        setLoading(false)
     }
   }
 
   const updateCounterData = async (count) => {
-    console.log(count)
     try {
       setLoading(true)
       const res = await updateCounter(count)
-      console.log("res",res)
       if(res != null){
         setCounter(res.tushar)
       }
@@ -46,6 +41,7 @@ function App() {
 
   return (
     <>
+      <Loader isLoading={loading}/>
       <Button counter={counter} updateCounterData={updateCounterData}/>
       <Label count={counter}/>
     </>
