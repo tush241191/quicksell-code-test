@@ -3,17 +3,25 @@ import { useEffect, useState } from "react"
 const Button = ({counter,updateCounterData}) =>{
 
   const [count, setCount] = useState(counter)
+  const maxCount = process.env.REACT_APP_MAX_VALUE == undefined ? 1000 : process.env.REACT_APP_MAX_VALUE;
 
   useEffect(()=>{
     updateCounterData(count)
   },[count])
 
   function handleChange(event) {
-    setCount(parseInt(event.target.value))
+    event.preventDefault()
+    if(isNaN(parseInt(event.target.value))){
+      setCount("");
+    }else if(parseInt(event.target.value) == 0){
+      setCount(1)
+    }else{
+      setCount(parseInt(event.target.value) >= maxCount ? maxCount : parseInt(event.target.value))
+    }
   }
 
   function increment(){
-    setCount(count+1)
+    setCount(count == maxCount ? maxCount : count+1)
   }
 
   function decrement(){
@@ -23,7 +31,7 @@ const Button = ({counter,updateCounterData}) =>{
   return(
     <div className='btnGroup'>
       <button className='btn btn-decrement' onClick={decrement}>-</button>
-      <input className='btn input-count' value={counter} onChange={handleChange}/>
+      <input className='btn input-count' value={count} onChange={handleChange}/>
       <button className='btn btn-increment' onClick={increment}>+</button>
     </div>
   )
